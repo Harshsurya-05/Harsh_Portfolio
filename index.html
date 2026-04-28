@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Harsh Suryawanshi | Portfolio</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --bg: #030712;
+            --surface: #111827;
+            --primary: #00f0ff; 
+            --text-main: #f9fafb;
+            --text-muted: #9ca3af;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; }
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background-color: var(--bg);
+            color: var(--text-main);
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        /* Custom Cursor */
+        .cursor-dot, .cursor-outline {
+            position: fixed; top: 0; left: 0; transform: translate(-50%, -50%);
+            border-radius: 50%; z-index: 9999; pointer-events: none;
+        }
+        .cursor-dot { width: 8px; height: 8px; background: var(--primary); box-shadow: 0 0 10px var(--primary); }
+        .cursor-outline { width: 40px; height: 40px; border: 1px solid rgba(0, 240, 255, 0.5); transition: 0.15s; }
+
+        .bg-mesh {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background: radial-gradient(circle at 15% 50%, rgba(112, 0, 255, 0.1), transparent 25%),
+                        radial-gradient(circle at 85% 30%, rgba(0, 240, 255, 0.1), transparent 25%);
+            z-index: -1; filter: blur(40px);
+        }
+
+        nav {
+            position: fixed; top: 0; width: 100%; padding: 20px 50px;
+            display: flex; justify-content: space-between; align-items: center;
+            background: rgba(3, 7, 18, 0.6); backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255,255,255,0.05); z-index: 1000;
+        }
+        .nav-links { display: flex; gap: 25px; }
+        .nav-links a { color: var(--text-main); text-decoration: none; font-size: 0.85rem; font-family: 'Fira Code'; transition: 0.3s; }
+        .nav-links a:hover { color: var(--primary); text-shadow: 0 0 8px var(--primary); }
+
+        .hero { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 120px 50px 50px; }
+        .hero-content { display: flex; align-items: center; gap: 50px; max-width: 1200px; width: 100%; }
+        .hero-img-container img { width: 340px; height: 450px; object-fit: cover; border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%; border: 2px solid var(--primary); animation: blob 8s infinite alternate; }
+        @keyframes blob { to { border-radius: 50% 50% 30% 70% / 60% 40% 60% 40%; } }
+
+        .shine-name { font-size: 3.5rem; font-weight: 800; background: linear-gradient(90deg, #fff, var(--primary), #fff); background-size: 200%; -webkit-background-clip: text; -webkit-text-fill-color: transparent; animation: shine 5s linear infinite; }
+        @keyframes shine { to { background-position: 200%; } }
+
+        .terminal { background: rgba(17, 24, 39, 0.85); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 20px; font-family: 'Fira Code', monospace; font-size: 0.85rem; color: var(--primary); margin: 20px 0; }
+
+        .section { padding: 90px 50px; max-width: 1200px; margin: 0 auto; }
+        .section-title { font-size: 2.2rem; margin-bottom: 40px; text-align: center; }
+        .section-title span { color: var(--primary); }
+
+        .about-card { background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); border-radius: 20px; padding: 40px; line-height: 1.8; color: var(--text-muted); font-size: 1.1rem; }
+        .about-card b { color: var(--primary); }
+
+        .edu-timeline { position: relative; max-width: 800px; margin: 0 auto; }
+        .edu-timeline::after { content: ''; position: absolute; width: 2px; background: var(--primary); top: 0; bottom: 0; left: 50%; margin-left: -1px; opacity: 0.3; }
+        .edu-item { padding: 10px 40px; position: relative; width: 50%; }
+        .edu-item::after { content: ''; position: absolute; width: 16px; height: 16px; right: -8px; background: var(--bg); border: 2px solid var(--primary); top: 15px; border-radius: 50%; z-index: 1; }
+        .left { left: 0; text-align: right; }
+        .right { left: 50%; text-align: left; }
+        .right::after { left: -8px; }
+        .edu-content { padding: 20px; background: rgba(255,255,255,0.02); border-radius: 12px; border: 1px solid rgba(255,255,255,0.05); }
+
+        .tech-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
+        .tech-item { background: rgba(255,255,255,0.02); padding: 20px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.05); display: flex; align-items: center; gap: 15px; }
+        .skill-bar-bg { height: 4px; background: rgba(255,255,255,0.1); width: 100%; border-radius: 10px; margin-top: 8px; }
+        .skill-bar-fill { height: 100%; background: var(--primary); border-radius: 10px; box-shadow: 0 0 10px var(--primary); }
+
+        .soft-skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; }
+        .soft-box { background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); padding: 30px; border-radius: 15px; text-align: center; transition: 0.3s; }
+        .soft-box:hover { border-color: var(--primary); transform: translateY(-5px); }
+        .soft-box i { font-size: 2rem; color: var(--primary); margin-bottom: 15px; }
+
+        /* --- CERTIFICATES SLIDER STYLE --- */
+        .cert-slider { width: 100%; overflow: hidden; padding: 20px 0; }
+        .cert-track { display: flex; width: calc(300px * 8); animation: slideLeft 15s linear infinite; gap: 20px; }
+        @keyframes slideLeft { 0% { transform: translateX(0); } 100% { transform: translateX(calc(-300px * 4)); } }
+        .cert-card { width: 300px; flex-shrink: 0; background: var(--surface); border: 1px solid rgba(255,255,255,0.1); border-radius: 15px; overflow: hidden; }
+        .cert-card img { width: 100%; height: 180px; object-fit: cover; }
+        .cert-card h5 { padding: 15px; text-align: center; color: var(--primary); font-size: 0.9rem; }
+
+        .contact-details { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px; margin-top: 40px; }
+        .contact-item { padding: 25px; background: rgba(255,255,255,0.02); border-radius: 15px; text-align: center; text-decoration: none; color: inherit; border: 1px solid rgba(255,255,255,0.03); transition: 0.3s; }
+        .contact-item:hover { border-color: var(--primary); transform: translateY(-5px); background: rgba(0, 240, 255, 0.05); }
+        .contact-item i { font-size: 1.5rem; color: var(--primary); margin-bottom: 10px; }
+        .contact-item span { display: block; font-size: 0.75rem; color: var(--text-muted); margin-top: 8px; }
+
+        .message-container { max-width: 700px; margin: 0 auto; background: rgba(255,255,255,0.02); padding: 30px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.05); }
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; margin-bottom: 8px; font-size: 0.9rem; color: var(--primary); font-family: 'Fira Code'; }
+        .form-group input, .form-group textarea {
+            width: 100%; padding: 12px; background: rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.1); 
+            border-radius: 8px; color: #fff; font-family: 'Space Grotesk'; outline: none; transition: 0.3s;
+        }
+        .form-group input:focus, .form-group textarea:focus { border-color: var(--primary); box-shadow: 0 0 10px rgba(0, 240, 255, 0.2); }
+        .submit-btn {
+            width: 100%; padding: 15px; background: transparent; border: 1px solid var(--primary);
+            color: var(--primary); font-weight: 600; border-radius: 8px; transition: 0.3s;
+        }
+        .submit-btn:hover { background: var(--primary); color: #000; box-shadow: 0 0 20px var(--primary); }
+
+        @media (max-width: 768px) {
+            .hero-content { flex-direction: column-reverse; text-align: center; }
+            .edu-timeline::after { left: 31px; }
+            .edu-item { width: 100%; padding-left: 70px; padding-right: 25px; text-align: left; }
+            .edu-item.left::after, .edu-item.right::after { left: 23px; }
+            .right { left: 0%; }
+            .nav-links { display: none; }
+
+        }
+        .resume-btn {
+    display: inline-block;
+    margin: 10px;
+    padding: 12px 25px;
+    border: 1px solid var(--primary);
+    color: var(--primary);
+    text-decoration: none;
+    border-radius: 8px;
+    font-family: 'Fira Code';
+    font-size: 0.85rem;
+    transition: 0.3s;
+}
+
+.resume-btn:hover {
+    background: var(--primary);
+    color: #000;
+    box-shadow: 0 0 15px var(--primary);
+}
+    </style>
+</head>
+<body>
+
+    <div class="cursor-dot" id="cursor-dot"></div>
+    <div class="cursor-outline" id="cursor-outline"></div>
+    <div class="bg-mesh"></div>
+
+    <nav>
+        <div class="logo">×͜×ㅤʜᴀʀꜱʜㅤ❤<span style="color: var(--primary);">.</span></div>
+        <div class="nav-links">
+            <a href="#home">HOME</a>
+            <a href="#about">ABOUT</a>
+            <a href="#education">EDUCATION</a>
+            <a href="#tech-skills">SKILLS</a>
+            <a href="#certificates">CERTIFICATES</a>
+            <a href="#contact">CONTACT</a>
+        </div>
+    </nav>
+
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <div style="flex: 1.2;">
+                <h1 class="shine-name">Harsh Suryawanshi</h1>
+                <div class="terminal"><div id="typewriter"></div></div>
+            </div>
+            <div class="hero-img-container">
+                <img src="/images/harsh.jpeg" alt="Harsh Profile">
+            </div>
+        </div>
+    </section>
+    <div style="text-align:center; margin-top: -40px; margin-bottom: 60px;">
+    <a href="/Resume_28_04_2026_11_20_13_pm.pdf" target="_blank" class="resume-btn">View Resume</a>
+    <a href="/Resume_28_04_2026_11_20_13_pm.pdf" download class="resume-btn">Download Resume</a>
+</div>
+
+    <section class="section" id="about">
+        <h2 class="section-title">About <span>Me</span></h2>
+        <div class="about-card">
+            Hello! I am <b>Harsh Suryawanshi</b>, a passionate Computer Science Engineering student specializing in <b>Artificial Intelligence and Data Science</b>. 
+            Currently in my 4th semester in Sagar Institute Science And Technology Affilated <b>RGPV, Bhopal</b>, I am dedicated to exploring the intersection of logic and creativity through code. 
+            I love building efficient Websites using <b>HTML:5,CSS3,Js</HTML:5></b> and solving complex problems with <b>C++</b>. 
+        </div>
+    </section>
+
+    <section class="section" id="education">
+        <h2 class="section-title">Academic <span>Journey</span></h2>
+        <div class="edu-timeline">
+            <div class="edu-item left">
+                <div class="edu-content">
+                    <h4>B.Tech in CSE (AI & DS)</h4>
+                    <p>Sagar Institute Science And Technology,<p><a href="#" style="color: white;">Ghandhi Nagar Bhoapl</a></p></p>
+                    <small>2026 - Present | 4th Sem</small>
+                </div>
+            </div>
+            <div class="edu-item right">
+                <div class="edu-content">
+                    <h4>Higher Secondary (12th)</h4>
+                    <p>Vidya Sagar Hr. Sec. School</p>
+                    
+                    <p>MP Board of Secondary Education</p>
+                    <small>Completed 2024</small>
+                </div>
+            </div>
+            <div class="edu-item left">
+                <div class="edu-content">
+                    <h4>High School (10th)</h4>
+                    <p>Vidya Sagar Hr. Sec. School</p>
+                    <p>Bhanpur Bhopal</p>
+                    <p>MP Board of secondary Education</p>
+                    <small>Completed 2022</small>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="tech-skills">
+        <h2 class="section-title">Technical <span>Core</span></h2>
+        <div class="tech-grid">
+            <div class="tech-item"><i class="fab fa-cpp"></i><div style="width:100%;"><h5>C++</h5><div class="skill-bar-bg"><div class="skill-bar-fill" style="width: 85%;"></div></div></div></div>
+            <div class="tech-item"><i class="fab fa-python"></i><div style="width:100%;"><h5>c</h5><div class="skill-bar-bg"><div class="skill-bar-fill" style="width: 75%;"></div></div></div></div>
+            <div class="tech-item"><i class="fab fa-html5"></i><div style="width:100%;"><h5>Web Tech</h5><div class="skill-bar-bg"><div class="skill-bar-fill" style="width: 80%;"></div></div></div></div>
+            <div class="tech-item"><i class="fas fa-mobile-alt"></i><div style="width:100%;"><h5>Flutter</h5><div class="skill-bar-bg"><div class="skill-bar-fill" style="width: 65%;"></div></div></div></div>
+        </div>
+    </section>
+
+    <section class="section" id="certificates">
+        <h2 class="section-title">My <span>Certificates</span></h2>
+        <div class="cert-slider">
+            <div class="cert-track">
+                <div class="cert-card"><img src="/images/WhatsApp Image 2026-04-17 at 15.36.44.jpeg" alt="Cert"><h5>APP DEVLOPMENT</h5></div>
+                <div class="cert-card"><img src="/images/WhatsApp Image 2026-04-17 at 15.35.11.jpeg" alt="Cert"><h5>CISCO</h5></div>
+                <div class="cert-card"><img src="/images/WhatsApp Image 2026-04-17 at 15.35.05.jpeg" alt="Cert"><h5>CISCO </h5></div>
+                <div class="cert-card"><img src="/images/WhatsApp Image 2026-04-17 at 15.36.44.jpeg" alt="Cert"><h5>APP DEVLOPMENT</h5></div>
+                <div class="cert-card"><img src="/images/WhatsApp Image 2026-04-17 at 15.35.11.jpeg" alt="Cert"><h5>CISCO</h5></div>
+                <div class="cert-card"><img src="/images/WhatsApp Image 2026-04-17 at 15.35.05.jpeg" alt="Cert"><h5>CISCO </h5></div>
+                
+        </div>
+    </section>
+
+    <section class="section">
+        <h2 class="section-title">Soft <span>Aptitude</span></h2>
+        <div class="soft-skills-grid">
+            <div class="soft-box"><i class="fas fa-users"></i><h5>Leadership</h5><p>Leading Team Protocols</p></div>
+            <div class="soft-box"><i class="fas fa-comments"></i><h5>Communication</h5><p>Verbal Data Exchange</p></div>
+            <div class="soft-box"><i class="fas fa-brain"></i><h5>Problem Solving</h5><p>Logic Optimization</p></div>
+        </div>
+    </section>
+
+    <section class="section" id="contact">
+        <h2 class="section-title">Contact <span>With Me</span></h2>
+        
+        <div class="message-container">
+            <h3 style="text-align:center; margin-bottom: 25px; font-family: 'Fira Code'; color: var(--primary);">Send A Message</h3>
+            <form action="#">
+                <div class="form-group">
+                    <label>YOUR NAME</label>
+                    <input type="text" placeholder="Enter your name" required>
+                </div>
+                <div class="form-group">
+                    <label>YOUR EMAIL</label>
+                    <input type="email" placeholder="Enter your email" required>
+                </div>
+                <div class="form-group">
+                    <label>MESSAGE</label>
+                    <textarea rows="4" placeholder="Type your message here..." required></textarea>
+                </div>
+                <button type="submit" class="submit-btn">SEND MESSAGE</button>
+            </form>
+        </div>
+
+        <div class="contact-details">
+            <a href="tel:+917415906776" class="contact-item"><i class="fas fa-phone-alt"></i><p>Call</p><span>+91 7415906776</span></a>
+            <a href="mailto:suryavanshih188@gmail.com" class="contact-item"><i class="fas fa-envelope"></i><p>Email</p><span>suryavanshih188@gmail.com</span></a>
+            <a href="https://github.com/Harshsurya-05" target="_blank" class="contact-item"><i class="fab fa-github"></i><p>GitHub</p><span>Code Repo</span></a>
+            <a href="https://www.linkedin.com/in/harsh-suryawanshi-1a9209384?utm_source=share_via&utm_content=profile&utm_medium=member_android" target="_blank" class="contact-item"><i class="fab fa-linkedin-in"></i><p>LinkedIn</p><span>Professional</span></a>
+            <a href="https://www.instagram.com/__harxhh__09?igsh=MTU3OXRnbHExd2M2Mg==" target="_blank" class="contact-item"><i class="fab fa-instagram"></i><p>Instagram</p><span>Social</span></a>
+        </div>
+    </section>
+
+    <footer style="text-align: center; padding: 40px; opacity: 0.4; font-size: 0.7rem;">
+        &copy; 2026 HARSH SURYAWANSHI | RGPV BHOPAL
+    </footer>
+
+    <script>
+        const dot = document.getElementById("cursor-dot");
+        const outline = document.getElementById("cursor-outline");
+        window.addEventListener("mousemove", (e) => {
+            dot.style.left = e.clientX + "px"; dot.style.top = e.clientY + "px";
+            outline.animate({ left: e.clientX + "px", top: e.clientY + "px" }, { duration: 500, fill: "forwards" });
+        });
+
+        const text = "> Harsh Suryawanshi\n> Status: 2nd Year Student (AI & DS)\n> Location: Bhopal, India\n> Protocol: Online_";
+        let i = 0;
+        function type() {
+            if (i < text.length) {
+                document.getElementById("typewriter").innerHTML += text.charAt(i) === '\n' ? '<br>' : text.charAt(i);
+                i++; setTimeout(type, 45);
+            }
+        }
+        setTimeout(type, 1000);
+    </script>
+</body>
+</html>
